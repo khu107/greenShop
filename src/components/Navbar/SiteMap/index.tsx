@@ -2,6 +2,9 @@ import type { FC } from "react";
 import { Modal } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 
+import { useReduxDispatch, useReduxSelector } from "../../../hooks/useRedux";
+import { setsiteMapModalVisibility } from "../../../redux/modalSlice";
+
 const customLinkStyle = "text-[1rem] font-normal leading-6 cursor-pointer";
 const linkHoverStyle =
   "hover:border-l-[5px] hover:border-[#46A358] hover:pl-[5px] hover:text-[#46A358] transition-colors";
@@ -9,8 +12,16 @@ const linkActiveStyle =
   "border-l-[5px] border-[#46A358] pl-[5px] text-[#46A358] transition-colors";
 
 const SiteMap: FC = () => {
+  const { siteMapModalVisibility } = useReduxSelector((store) => store.modal);
+  const dispatch = useReduxDispatch();
+
   return (
-    <Modal open={true} title="Site map" footer={false}>
+    <Modal
+      open={siteMapModalVisibility}
+      title="Site map"
+      footer={false}
+      onCancel={() => dispatch(setsiteMapModalVisibility())}
+    >
       <div className="flex gap-4 flex-col mt-5">
         <h3
           className={`${customLinkStyle} ${linkHoverStyle} ${linkActiveStyle}`}
