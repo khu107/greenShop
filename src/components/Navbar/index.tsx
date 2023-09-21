@@ -14,7 +14,7 @@ const iconStyle: string = "cursor-pointer text-[20px]";
 const Navbar: FC = () => {
   const dispatch = useReduxDispatch();
   return (
-    <div className="w-[80%] m-auto flex justify-between h-[90px] items-center border-b border-[#46A358]">
+    <div className="flex justify-between h-[90px] items-center border-b border-[#46A358]">
       <SiteMap />
       <div>
         <img
