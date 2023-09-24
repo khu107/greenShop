@@ -6,7 +6,7 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import SiteMap from "./SiteMap";
+import SiteMap from "../ModalVisibility/Modals/SiteMap";
 import { useReduxDispatch } from "../../hooks/useRedux";
 import { setsiteMapModalVisibility } from "../../redux/modalSlice";
 const iconStyle: string = "cursor-pointer text-[20px]";
