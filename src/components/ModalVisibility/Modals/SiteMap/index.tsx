@@ -2,8 +2,8 @@ import type { FC } from "react";
 import { Modal } from "antd";
 import { LoginOutlined } from "@ant-design/icons";
 
-import { useReduxDispatch, useReduxSelector } from "../../../hooks/useRedux";
-import { setsiteMapModalVisibility } from "../../../redux/modalSlice";
+import { useReduxDispatch, useReduxSelector } from "../../../../hooks/useRedux";
+import { setsiteMapModalVisibility } from "../../../../redux/modalSlice";
 
 const customLinkStyle = "text-[1rem] font-normal leading-6 cursor-pointer";
 const linkHoverStyle =
