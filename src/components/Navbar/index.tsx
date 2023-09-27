@@ -6,16 +6,18 @@ import {
   SearchOutlined,
   ShoppingCartOutlined,
 } from "@ant-design/icons";
-import SiteMap from "../ModalVisibility/Modals/SiteMap";
+
 import { useReduxDispatch } from "../../hooks/useRedux";
-import { setsiteMapModalVisibility } from "../../redux/modalSlice";
+import {
+  setAuthMapModalVisibility,
+  setsiteMapModalVisibility,
+} from "../../redux/modalSlice";
 const iconStyle: string = "cursor-pointer text-[20px]";
 
 const Navbar: FC = () => {
   const dispatch = useReduxDispatch();
   return (
     <div className="flex justify-between h-[90px] items-center border-b border-[#46A358]">
-      <SiteMap />
       <div>
         <img
           src="https://firebasestorage.googleapis.com/v0/b/aema-image-upload.appspot.com/o/greenshop%2Ficons%2Flogo.svg?alt=media&token=fc9659d6-f435-43b9-a624-8b0d3a574baa"
@@ -30,7 +32,12 @@ const Navbar: FC = () => {
         <SearchOutlined className={`${iconStyle}`} />
         <BellOutlined className={`${iconStyle}`} />
         <ShoppingCartOutlined className={`${iconStyle}`} />
-        <button className="text-white w-[100px] h-[35px] bg-[#46A358] flex justify-center items-center rounded-md gap-2 max-md:hidden">
+        <button
+          onClick={() => {
+            dispatch(setAuthMapModalVisibility({ loading: false, open: true }));
+          }}
+          className="text-white w-[100px] h-[35px] bg-[#46A358] flex justify-center items-center rounded-md gap-2 max-md:hidden"
+        >
           <LoginOutlined />
           Login
         </button>
