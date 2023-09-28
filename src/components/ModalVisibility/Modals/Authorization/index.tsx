@@ -1,19 +1,27 @@
 import type { FC } from "react";
 import { Modal } from "antd";
 import { useState } from "react";
-import { useReduxSelector } from "../../../../hooks/useRedux";
+import { useReduxDispatch, useReduxSelector } from "../../../../hooks/useRedux";
 import Login from "./Login";
 import Register from "./Register";
+import { setAuthMapModalVisibility } from "../../../../redux/modalSlice";
 
 type ActiveType = "login" | "register";
 
 const Authorization: FC = () => {
+  const dispatch = useReduxDispatch();
   const [active, setActive] = useState<ActiveType>("login");
   const { authModalVisibility } = useReduxSelector((state) => state.modal);
 
   const activeStyle = "text-[#46A358]";
   return (
-    <Modal open={authModalVisibility.open} footer={false}>
+    <Modal
+      onCancel={() =>
+        dispatch(setAuthMapModalVisibility({ loading: false, open: false }))
+      }
+      open={authModalVisibility.open}
+      footer={false}
+    >
       <div className="m-auto flex flex-col items-center ">
         <div className="flex mt-[52px] items-center gap-3">
           <div
