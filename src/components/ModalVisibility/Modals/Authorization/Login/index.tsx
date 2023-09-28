@@ -5,6 +5,11 @@ import {
   GoogleOutlined,
   ScanOutlined,
 } from "@ant-design/icons";
+import { useAxios } from "../../../../../hooks/useRedux/useAxios";
+import type { AuthResponseType } from "../../../../../@types";
+import { useSignIn } from "react-auth-kit";
+import { useReduxDispatch } from "../../../../../hooks/useRedux";
+import { setAuthMapModalVisibility } from "../../../../../redux/modalSlice";
 
 interface OnAuthType {
   email: string;
@@ -12,8 +17,30 @@ interface OnAuthType {
 }
 
 const Login: FC = () => {
-  const onAuth = (e: OnAuthType): void => {
-    console.log(e);
+  const dispatch = useReduxDispatch();
+  const axios = useAxios();
+  const signIn = useSignIn();
+
+  const onAuth = async (e: OnAuthType) => {
+    if (!e.email || !e.password) return;
+
+    try {
+      const { data }: { data: AuthResponseType } = await axios({
+        url: "/user/sign-in",
+        method: "POST",
+        body: e,
+      });
+      console.log(data);
+      signIn({
+        token: data.data.token,
+        expiresIn: 3600,
+        tokenType: "Bearer",
+        authState: data.data.user,
+      });
+      dispatch(setAuthMapModalVisibility({ loading: false, open: false }));
+    } catch (error) {
+      console.log(error);
+    }
   };
   return (
     <div className="w-4/5 m-auto">

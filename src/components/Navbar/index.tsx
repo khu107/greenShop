@@ -12,10 +12,16 @@ import {
   setAuthMapModalVisibility,
   setsiteMapModalVisibility,
 } from "../../redux/modalSlice";
+import { useAuthUser, useIsAuthenticated } from "react-auth-kit";
+import type { UserType } from "../../@types";
 const iconStyle: string = "cursor-pointer text-[20px]";
 
 const Navbar: FC = () => {
   const dispatch = useReduxDispatch();
+  const isAuthed = useIsAuthenticated()();
+  const auth: UserType = useAuthUser()() ?? {};
+  console.log(auth, isAuthed);
+
   return (
     <div className="flex justify-between h-[90px] items-center border-b border-[#46A358]">
       <div>
@@ -38,8 +44,14 @@ const Navbar: FC = () => {
           }}
           className="text-white w-[100px] h-[35px] bg-[#46A358] flex justify-center items-center rounded-md gap-2 max-md:hidden"
         >
-          <LoginOutlined />
-          Login
+          {isAuthed ? (
+            `${String(auth.name)}`
+          ) : (
+            <>
+              <LoginOutlined />
+              Login
+            </>
+          )}
         </button>
         <MenuOutlined
           onClick={() => dispatch(setsiteMapModalVisibility())}
