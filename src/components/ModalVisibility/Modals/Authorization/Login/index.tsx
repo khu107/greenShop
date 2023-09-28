@@ -1,18 +1,26 @@
+import type { FC } from "react";
+import { Divider, Form, Input } from "antd";
 import {
   FacebookFilled,
   GoogleOutlined,
   ScanOutlined,
 } from "@ant-design/icons";
-import { Divider, Form, Input } from "antd";
-import type { FC } from "react";
+
+interface OnAuthType {
+  email: string;
+  password: string;
+}
 
 const Login: FC = () => {
+  const onAuth = (e: OnAuthType): void => {
+    console.log(e);
+  };
   return (
     <div className="w-4/5 m-auto">
       <h3 className="text-sm mt-8 font-normal">
         Enter your username and password to ligin.
       </h3>
-      <Form>
+      <Form onFinish={onAuth}>
         <Form.Item
           name="email"
           rules={[
