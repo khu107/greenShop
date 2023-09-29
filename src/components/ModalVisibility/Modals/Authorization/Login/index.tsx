@@ -9,7 +9,11 @@ import { useAxios } from "../../../../../hooks/useRedux/useAxios";
 import type { AuthResponseType } from "../../../../../@types";
 import { useSignIn } from "react-auth-kit";
 import { useReduxDispatch } from "../../../../../hooks/useRedux";
-import { setAuthMapModalVisibility } from "../../../../../redux/modalSlice";
+import {
+  setAuthMapModalVisibility,
+  setInProcessModalVisibility,
+} from "../../../../../redux/modalSlice";
+import { signInWithGoogle } from "../../../../../config/config";
 
 interface OnAuthType {
   email: string;
@@ -38,6 +42,30 @@ const Login: FC = () => {
         authState: data.data.user,
       });
       dispatch(setAuthMapModalVisibility({ loading: false, open: false }));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const onAuthWithGoogle = async () => {
+    try {
+      dispatch(setAuthMapModalVisibility({ loading: false, open: false }));
+      const result = await signInWithGoogle();
+      dispatch(setInProcessModalVisibility());
+      const { data }: { data: AuthResponseType } = await axios({
+        url: "/user/sign-in/google",
+        method: "POST",
+        body: {
+          email: result.user.email,
+        },
+      });
+      signIn({
+        token: data.data.token,
+        expiresIn: 3600,
+        tokenType: "Bearer",
+        authState: data.data.user,
+      });
+      dispatch(setInProcessModalVisibility());
     } catch (error) {
       console.log(error);
     }
@@ -93,7 +121,10 @@ const Login: FC = () => {
         <FacebookFilled className="pl-[15px]" />
         Login with Facebook
       </button>
-      <button className="cursor-pointer flex items-center gap-2 border border-[#EAEAEA] h-[40px] w-full rounded-md mb-[15px]">
+      <button
+        onClick={() => onAuthWithGoogle()}
+        className="cursor-pointer flex items-center gap-2 border border-[#EAEAEA] h-[40px] w-full rounded-md mb-[15px]"
+      >
         <GoogleOutlined className="pl-[15px]" />
         Login with Google
       </button>
